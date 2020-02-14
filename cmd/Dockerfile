@@ -17,5 +17,5 @@ RUN go build -o main ./main.go
 FROM alpine:latest AS production
 COPY --from=builder /app .
 EXPOSE 8081
-CMD [ "./main" ]
+CMD [ "./main &" ]
 #docker build [arg]
