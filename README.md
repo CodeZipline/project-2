@@ -1,4 +1,4 @@
-SET UP:
+## SET UP:
     A file .env must be made with the desired endpoint PORTs,(B_ORIGIN_PORT) for each server to know and pull from the operating system.  
     A config.json file will be parse to become a struct for provisioning the setting for database start up.
 DOCKER: Due to usage of relative paths inside the go files, the Dockerfile build must be called within the directory to function.
