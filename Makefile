@@ -13,9 +13,8 @@ dockDbServer:
 dockContainerIP:
 	sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" dbserverContainer
 
+#Remove all container volumes and images from dockDbServer command from docker
 clean:
 	docker system prune
 	docker volume rm myDB
 	docker image rm codezipline/dbserver
-	
-	
