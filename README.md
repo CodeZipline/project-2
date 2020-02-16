@@ -1,31 +1,57 @@
-## SET UP:
-    A file .env must be made with the desired endpoint PORTs,(B_ORIGIN_PORT) for each server to know and pull from the operating system.  
-    A config.json file will be parse to become a struct for provisioning the setting for database start up.
-DOCKER: Due to usage of relative paths inside the go files, the Dockerfile build must be called within the directory to function.
-    
-    Commands for execution of the container:
-    
-        // Create a docker volume to be shared between host machine and container
-        sudo docker volume create --name [volumeName] 
-        - In this case we use:  sudo docker volume create --name myDB
-    
-        // Create a docker image with a tag for dockerhub, with the format of [userName]/[repositoryName].
-            - The settings for the docker file is set up and will be executed with: docker build -t codezipline/dbserver ./cmd
-    
-        // Create a daemon apline container with the volume, dbserver, attach, to /badger in the container, on port 8081
-        sudo docker run -it --name [containerName] -v [volumeName]:[containersDirectory] [osDistribution] [applicationOnStartUp]
-            - In this case we use:  sudo docker run -it --expose 8081 --name dbserverContainer -v myDB:/app/badger codezipline/dbserver
-    
-    Commands:
-    
-    // Obtain ip address of the container with Container_Name, in this example it is dbserverContainer
-    sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" dbserverContainer
+## Getting Started
+***Note:*** cmd/config.json file stores the data directory configuration in string format defining where the data will be stored
+   
+## Docker
 
-MAKEFILE:
-    The Makefile is convenient configuration of the docker container with an attached volume. 
-    The container hosts a badger database and stores to volume located in /app/badger within the container.
-    The default make command starts the database and hosts it on port 8081. Specificing a method can be done with the command: make [target name]
-    Lastly, make clean will prune the system and remove the recently made image and container, Note by convention a project should always run the 
-    make clean method before executing other.
+### Commands for Execution
+
+#### Creating a Docker Volume 
+    
+Volume will be be shared between host machine and container
+
+Command  ``` sudo docker volume create --name <volumeName> ```
+
+To name volume myDB run the following command
+    
+``` sudo docker volume create --name myDB ```
+    
+#### Create a docker image with a tag for dockerhub, with the format of ``` <userName> / <repositoryName>. ```
+    
+***Note:*** Dockerfile contains preconfigured settings (refer to Makefile section below) 
+
+Command ``` docker build -t codezipline/dbserver ./cmd ```
+    
+#### Create an apline container with the volume, dbserver, attach, to /badger in the container, on port 8081
+
+ Command ``` sudo docker run -it --name <containerName> -v <volumeName>:<containersDirectory> <osDistribution> <applicationOnStartUp> ```
+
+In our case, we run  ``` sudo docker run -it --expose 8081 --name dbserverContainer -v myDB:/app/badger codezipline/dbserver ```
+    
+    
+#### To obtain ip address of the container with Container_Name we run the following command  
+
+``` sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" dbserverContainer ``` 
+
+giving us the container name ``` dbserverContainer ```
+
+## Makefile
+
+``` Makefile ``` is a convenient configuration script of the docker container with an attached volume. The container hosts a badger database and stores to volume located in /app/badger within the container. 
+
+ ***Note:*** by convention a project should always run the make clean method before executing other commands
+
+1. ```make```
+
+    The default ``` make ``` command starts the database and hosts it on port 8081. 
+
+2. ``` make <target name> ```
+
+    Specificing a method can be done with the command ``` make <target name> ```
+
+3.  ``` make clean ```
+
+    ``` make clean ``` will prune the system and remove the recently made image and container
+    
+   
 
 
