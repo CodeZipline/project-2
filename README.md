@@ -21,9 +21,9 @@ To name volume myDB run the following command
 
 Command ``` docker build -t codezipline/dbserver ./cmd ```
     
-#### Create an apline container with the volume, dbserver, attach, to /badger in the container, on port 8081
+#### Create an apline container with the volume, myDB, attach, to /app/badger in the container, on port 8081
 
- Command ``` sudo docker run -it --name <containerName> -v <volumeName>:<containersDirectory> <osDistribution> <applicationOnStartUp> ```
+ Command ``` sudo docker run -it expose <portNumber> --name <containerName> -v <volumeName>:<containerDirectoryPath> <imageName> ```
 
 In our case, we run  ``` sudo docker run -it --expose 8081 --name dbserverContainer -v myDB:/app/badger codezipline/dbserver ```
     
